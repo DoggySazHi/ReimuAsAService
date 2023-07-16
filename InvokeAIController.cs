@@ -11,7 +11,7 @@ public interface IInvokeAIController
     public Task<string> WaitForImage(int key);
 }
 
-public partial class InvokeAIController : IInvokeAIController, IDisposable
+public class InvokeAIController : IInvokeAIController, IDisposable
 {
     private readonly Queue<ImageRequest> _requests = new();
     private readonly Dictionary<int, string> _generated = new();
@@ -73,7 +73,7 @@ public partial class InvokeAIController : IInvokeAIController, IDisposable
         if (e.Data == null || _currentRequest == null)
             return;
         
-        var match = PathRegex().Match(e.Data);
+        var match = Regex.Match(e.Data, "\\] ([A-Za-z\\/\\\\:.0-9]+png)");
         
         if (match.Success)
         {
@@ -130,7 +130,4 @@ public partial class InvokeAIController : IInvokeAIController, IDisposable
         
         GC.SuppressFinalize(this);
     }
-
-    [GeneratedRegex("\\] ([A-Za-z\\/\\\\:.0-9]+png)")]
-    private static partial Regex PathRegex();
 }

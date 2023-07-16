@@ -23,6 +23,6 @@ public class ReimuController : ControllerBase
         _logger.LogInformation("Received query #{}", order);
         var file = await _invoke.WaitForImage(order);
         _logger.LogInformation("#{} receives path {}", order, file);
-        return File(System.IO.File.OpenRead(file), "image/png", "reimu.png");
+        return File(System.IO.File.OpenRead(file), "image/png");
     }
 }
